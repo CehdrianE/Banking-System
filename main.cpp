@@ -13,22 +13,33 @@ class Bank{
         string password;
         double initialBal;  
     public:
+        void menu();
         void getAccount();
+        void printAccount();
 };
 
 string getString(string prompt);
 
+void Bank::menu(){
+
+}
+
 void Bank::getAccount(){
-    string firstName = getString("What is your first name: ");
-    string lastName = getString("What is your last name: ");
-    string accountName = getString("What is the account name: ");
-    string password = getString("What is your password: ");
-    double initialBal = 0.0;
+    firstName = getString("What is your first name: ");
+    lastName = getString("What is your last name: ");
+    accountName = getString("What is the account name: ");
+    password = getString("What is your password: ");
+    initialBal = 0.0;
+}
+
+void Bank::printAccount(){
+    cout << firstName << '\n' << lastName << '\n' << lastName << '\n' << accountName << '\n' << initialBal;
 }
 
 int main(){
     Bank obj;
     obj.getAccount();
+    obj.printAccount();
     cout << "\nCheck\n";
     return 0;
 }
