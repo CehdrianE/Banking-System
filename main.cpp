@@ -10,44 +10,20 @@ class Bank{
         string firstName;
         string LastName;
         string accountName;
+        string password;
         double initialBal;
     public:
         void getAccount();
 };
 
-void Bank::getAccount(){
-    string firstName = "0";
-    string lastName = "0";
-    string accountName = "0";
-    double initialBal = 0.0;
-    cout << "What is your first name: ";
-    getline(cin, firstName);
-    while(!cin || (firstName.length() == 0 || 20 < firstName.length())){
-        cin.clear();
-        cout << "Error: Invalid Entry\nTry Again!\n";
-        cout << "What is your first name: ";
-        getline(cin, firstName);
-        continue;
-    }
-    cout << "What is your last name: ";
-    getline(cin, lastName);
-    while(!cin || (lastName.length() == 0 || 20 < lastName.length())){
-        cin.clear();
-        cout << "Error: Invalid Entry\nTry Again!\n";
-        cout << "What is your last name: ";
-        getline(cin, lastName);
-        continue;
-    }
-    cout << "What is the account name: ";
-    getline(cin, accountName);
-    while(!cin || (accountName.length() == 0 || 20 < accountName.length())){
-        cin.clear();
-        cout << "Error: Invalid Entry\nTry Again!\n";
-        cout << "What is the account name: ";
-        getline(cin, accountName);
-        continue;
-    }
+string getString(string prompt);
 
+void Bank::getAccount(){
+    string firstName = getString("What is your first name: ");
+    string lastName = getString("What is your last name: ");
+    string accountName = getString("What is the account name: ");
+    string password = getString("What is your password: ");
+    double initialBal = 0.0;
 }
 
 int main(){
@@ -55,4 +31,18 @@ int main(){
     obj.getAccount();
     cout << "\nCheck\n";
     return 0;
+}
+
+string getString(string prompt){
+    string input = "0";
+    cout << prompt;
+    getline(cin, input);
+    while(!cin || (input.length() == 0 || 20 < input.length())){
+        cin.clear();
+        cout << "Error: Invalid Entry\nTry Again!\n";
+        cout << "What is the account name: ";
+        getline(cin, input);
+        continue;
+    }
+    return input;
 }
