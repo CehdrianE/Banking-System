@@ -21,8 +21,37 @@ class Bank{
 string getString(string prompt);
 
 void Bank::menu(){
+    cout << "-------------------------------\n" <<  "| " 
+        <<  "    Welcome to the Bank!   " << " |\n" 
+        << "|     How May We Help You?    |\n" 
+        << "-------------------------------\n"
+        << "| " << "       0) Exit Bank        " << " |\n"
+        << "| " << "     1) Create Account     " << " |\n"
+        << "-------------------------------\n"
+        << "| " << "     Type in the Digit     " << " |\n" 
+        << "| " << " Associated With the Action" << " |\n"
+        << "-------------------------------\n";
+    int selection = -1;
+    cout << "Enter Digit: ";
+    cin >> selection;
+    while(!cin || selection < 0 || selection > 1){
+        cin.clear();
+        cin.ignore(256, '\n');
+        cout << "Error: Invalid Input\nTry Again!\n";
+        cout << "Enter Digit: ";
+        cin >> selection;
+    }
+    switch(selection){
+        case 0:
+            break;
+        case 1:
+            cin.ignore(256, '\n');
+            getAccount();
+        default:
+            break;
 
-}
+    }
+} 
 
 void Bank::getAccount(){
     firstName = getString("What is your first name: ");
@@ -33,13 +62,13 @@ void Bank::getAccount(){
 }
 
 void Bank::printAccount(){
-    cout << firstName << '\n' << lastName << '\n' << lastName << '\n' << accountName << '\n' << initialBal;
+    cout << firstName << '\n' << lastName << '\n' << accountName << '\n' << password << '\n' << initialBal;
 }
 
 int main(){
-    Bank obj;
-    obj.getAccount();
-    obj.printAccount();
+    Bank user;
+    user.menu();
+    user.printAccount();
     cout << "\nCheck\n";
     return 0;
 }
