@@ -8,10 +8,10 @@ using namespace std;
 class Bank{
     private:
         string firstName;
-        string LastName;
+        string lastName;
         string accountName;
         string password;
-        double initialBal;
+        double initialBal;  
     public:
         void getAccount();
 };
@@ -40,7 +40,7 @@ string getString(string prompt){
     while(!cin || (input.length() == 0 || 20 < input.length())){
         cin.clear();
         cout << "Error: Invalid Entry\nTry Again!\n";
-        cout << "What is the account name: ";
+        cout << prompt;
         getline(cin, input);
         continue;
     }
