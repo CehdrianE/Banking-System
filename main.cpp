@@ -13,23 +13,24 @@ class Bank{
         string password;
         double initialBal;  
     public:
-        void menu();
+        bool menu();
         void getAccount();
         void printAccount();
 };
 
 string getString(string prompt);
 
-void Bank::menu(){
-    cout << "-------------------------------\n" <<  "| " 
-        <<  "    Welcome to the Bank!   " << " |\n" 
+bool Bank::menu(){
+    bool enable = true;
+    cout << "-------------------------------\n" 
+        <<  "|     Welcome to the Bank!    |\n" 
         << "|     How May We Help You?    |\n" 
         << "-------------------------------\n"
-        << "| " << "       0) Exit Bank        " << " |\n"
-        << "| " << "     1) Create Account     " << " |\n"
+        << "|        0) Exit Bank         |\n"
+        << "|      1) Create Account      |\n"
         << "-------------------------------\n"
-        << "| " << "     Type in the Digit     " << " |\n" 
-        << "| " << " Associated With the Action" << " |\n"
+        << "|      Type in the Digit      |\n" 
+        << "|  Associated With the Action |\n"
         << "-------------------------------\n";
     int selection = -1;
     cout << "Enter Digit: ";
@@ -43,6 +44,7 @@ void Bank::menu(){
     }
     switch(selection){
         case 0:
+            enable = false;
             break;
         case 1:
             cin.ignore(256, '\n');
@@ -51,6 +53,7 @@ void Bank::menu(){
             break;
 
     }
+    return enable;
 } 
 
 void Bank::getAccount(){
@@ -67,8 +70,10 @@ void Bank::printAccount(){
 
 int main(){
     Bank user;
-    user.menu();
-    user.printAccount();
+    bool enable = true;
+    do{
+        enable = user.menu();
+    } while(enable);
     cout << "\nCheck\n";
     return 0;
 }
