@@ -16,6 +16,7 @@ class Bank{
         bool menu();
         void getAccount();
         void printAccount();
+        void deposit();
 };
 
 string getString(string prompt);
@@ -35,7 +36,7 @@ bool Bank::menu(){
     int selection = -1;
     cout << "Enter Digit: ";
     cin >> selection;
-    while(!cin || selection < 0 || selection > 1){
+    while(!cin || selection < 0 || selection > 2){
         cin.clear();
         cin.ignore(256, '\n');
         cout << "Error: Invalid Input\nTry Again!\n";
@@ -49,6 +50,11 @@ bool Bank::menu(){
         case 1:
             cin.ignore(256, '\n');
             getAccount();
+            break;
+        case 2:
+            cin.ignore(256, '\n');
+            deposit();
+            break;
         default:
             break;
 
@@ -68,12 +74,26 @@ void Bank::printAccount(){
     cout << firstName << '\n' << lastName << '\n' << accountName << '\n' << password << '\n' << initialBal;
 }
 
+void Bank::deposit(){
+    float depositAmt = 0.0;
+    cout << "How much would you like to deposit: ";
+    cin >> depositAmt;
+    while(!cin || depositAmt <= 0){
+        cin.clear();
+        cout << "Error: Invalid Entry\nTry Again!\n";
+        cout << "How much would you like to deposit: ";
+        cin >> depositAmt;
+    }
+    initialBal += depositAmt;
+}
+
 int main(){
     Bank user;
     bool enable = true;
     do{
         enable = user.menu();
     } while(enable);
+    user.printAccount();
     cout << "\nCheck\n";
     return 0;
 }
