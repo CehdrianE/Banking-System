@@ -11,10 +11,12 @@ class Bank{
         string lastName;
         string accountName;
         string password;
-        double initialBal;  
+        double initialBal;
+        bool accMade; 
     public:
         bool menu();
         void getAccount();
+        bool verifyUser(bool);
         void printAccount();
         void deposit();
         void withdraw();
@@ -53,14 +55,19 @@ bool Bank::menu(){
         case 1:
             cin.ignore(256, '\n');
             getAccount();
+            accMade = true;
             break;
         case 2:
             cin.ignore(256, '\n');
-            deposit();
+            if(verifyUser(accMade)){
+                deposit();
+            }
             break;
         case 3:
             cin.ignore(256, '\n');
-            withdraw();
+            if(verifyUser(accMade)){
+                withdraw();
+            }
             break;
         default:
             break;
@@ -74,6 +81,25 @@ void Bank::getAccount(){
     accountName = getString("What is the account name: ");
     password = getString("What is your password: ");
     initialBal = 0.0;
+    accMade = false;
+}
+
+bool Bank::verifyUser(bool acc){
+    string checkUser = "0";
+    string checkPass = "0";
+    if(!acc){
+        cout << "Error: No account made\n";
+        return false;
+    }
+    cout << "Enter account name: ";
+    getline(cin, checkUser);
+    cout << "Enter password: ";
+    getline(cin, checkPass);
+    if(checkUser != accountName || checkPass != password){
+        cout << "Error: account name or password is incorrect\n";
+        return false;
+    }
+    return true;
 }
 
 void Bank::printAccount(){
