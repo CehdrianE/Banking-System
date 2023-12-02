@@ -17,6 +17,7 @@ class Bank{
         void getAccount();
         void printAccount();
         void deposit();
+        void withdraw();
 };
 
 string getString(string prompt);
@@ -27,8 +28,10 @@ bool Bank::menu(){
         <<  "|     Welcome to the Bank!    |\n" 
         << "|     How May We Help You?    |\n" 
         << "-------------------------------\n"
-        << "|        0) Exit Bank         |\n"
+        << "|      0) Exit Bank           |\n"
         << "|      1) Create Account      |\n"
+        << "|      2) Deposit Money       |\n"
+        << "|      3) Withdraw Money      |\n"
         << "-------------------------------\n"
         << "|      Type in the Digit      |\n" 
         << "|  Associated With the Action |\n"
@@ -36,7 +39,7 @@ bool Bank::menu(){
     int selection = -1;
     cout << "Enter Digit: ";
     cin >> selection;
-    while(!cin || selection < 0 || selection > 2){
+    while(!cin || selection < 0 || selection > 3){
         cin.clear();
         cin.ignore(256, '\n');
         cout << "Error: Invalid Input\nTry Again!\n";
@@ -55,9 +58,12 @@ bool Bank::menu(){
             cin.ignore(256, '\n');
             deposit();
             break;
+        case 3:
+            cin.ignore(256, '\n');
+            withdraw();
+            break;
         default:
             break;
-
     }
     return enable;
 } 
@@ -85,6 +91,25 @@ void Bank::deposit(){
         cin >> depositAmt;
     }
     initialBal += depositAmt;
+}
+
+void Bank::withdraw(){
+    float withdrawAmt = 0.0;
+    cout << "Enter amount to withdraw: ";
+    cin >> withdrawAmt;
+    while(!cin){
+        cin.clear();
+        cout << "Error: Invalid Entry\nTry Again!\n";
+        cout << "Enter amount to withdraw: ";
+        cin >> withdrawAmt;
+    }
+    while(withdrawAmt > initialBal){
+        cin.clear();
+        cout << "Error: Withdrawal Amount Exceeds Balance\nTry Again!\n";
+        cout << "Enter amount to withdraw: ";
+        cin >> withdrawAmt;
+    }
+    initialBal -= withdrawAmt;
 }
 
 int main(){
