@@ -20,20 +20,23 @@ class Bank{
         void printAccount();
         void deposit();
         void withdraw();
+        void checkBalance();
 };
 
 string getString(string prompt);
 
 bool Bank::menu(){
     bool enable = true;
-    cout << "-------------------------------\n" 
+    cout << "\n-------------------------------\n" 
         <<  "|     Welcome to the Bank!    |\n" 
         << "|     How May We Help You?    |\n" 
         << "-------------------------------\n"
-        << "|      0) Exit Bank           |\n"
-        << "|      1) Create Account      |\n"
-        << "|      2) Deposit Money       |\n"
-        << "|      3) Withdraw Money      |\n"
+        << "|   0) Exit Bank              |\n"
+        << "|   1) Create Account         |\n"
+        << "|   2) Deposit Money          |\n"
+        << "|   3) Withdraw Money         |\n"
+        << "|   4) Check Balance          |\n"
+        << "|   5) View Account Details   |\n"
         << "-------------------------------\n"
         << "|      Type in the Digit      |\n" 
         << "|  Associated With the Action |\n"
@@ -41,7 +44,7 @@ bool Bank::menu(){
     int selection = -1;
     cout << "Enter Digit: ";
     cin >> selection;
-    while(!cin || selection < 0 || selection > 3){
+    while(!cin || selection < 0 || selection > 5){
         cin.clear();
         cin.ignore(256, '\n');
         cout << "Error: Invalid Input\nTry Again!\n";
@@ -67,6 +70,18 @@ bool Bank::menu(){
             cin.ignore(256, '\n');
             if(verifyUser(accMade)){
                 withdraw();
+            }
+            break;
+        case 4:
+            cin.ignore(256, '\n');
+            if(verifyUser(accMade)){
+                checkBalance();
+            }
+            break;
+        case 5:
+            cin.ignore(256, '\n');
+            if(verifyUser(accMade)){
+                printAccount();
             }
             break;
         default:
@@ -103,7 +118,7 @@ bool Bank::verifyUser(bool acc){
 }
 
 void Bank::printAccount(){
-    cout << firstName << '\n' << lastName << '\n' << accountName << '\n' << password << '\n' << initialBal;
+    cout << "\nFirst Name: "<< firstName << '\n' << "Last Name: "<< lastName << '\n' << "Account Name: " << accountName << '\n';
 }
 
 void Bank::deposit(){
@@ -136,6 +151,10 @@ void Bank::withdraw(){
         cin >> withdrawAmt;
     }
     initialBal -= withdrawAmt;
+}
+
+void Bank::checkBalance(){
+    cout << "Your balance is: " << initialBal << '\n';
 }
 
 int main(){
