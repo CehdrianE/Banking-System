@@ -2,8 +2,16 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include <ctime>
 
 using namespace std;
+
+struct transaction{
+    int number;
+    string type;
+    string when;
+    float Amt;
+};
 
 class Bank{
     private:
@@ -13,14 +21,19 @@ class Bank{
         string password;
         double initialBal;
         bool accMade; 
+        vector<transaction> transHist;
+        int transNumber;
     public:
         bool menu();
         void getAccount();
         bool verifyUser(bool);
         void printAccount();
         void deposit();
+        void depoToTrans(int);
         void withdraw();
+        void withToTrans(int);
         void checkBalance();
+        void getHistory();
 };
 
 string getString(string prompt);
@@ -31,12 +44,13 @@ bool Bank::menu(){
         <<  "|     Welcome to the Bank!    |\n" 
         << "|     How May We Help You?    |\n" 
         << "-------------------------------\n"
-        << "|   0) Exit Bank              |\n"
-        << "|   1) Create Account         |\n"
-        << "|   2) Deposit Money          |\n"
-        << "|   3) Withdraw Money         |\n"
-        << "|   4) Check Balance          |\n"
-        << "|   5) View Account Details   |\n"
+        << "| 0) Exit Bank                |\n"
+        << "| 1) Create Account           |\n"
+        << "| 2) Deposit Money            |\n"
+        << "| 3) Withdraw Money           |\n"
+        << "| 4) Check Balance            |\n"
+        << "| 5) View Account Details     |\n"
+        << "| 6) See Transaction History  |\n"
         << "-------------------------------\n"
         << "|      Type in the Digit      |\n" 
         << "|  Associated With the Action |\n"
@@ -44,7 +58,7 @@ bool Bank::menu(){
     int selection = -1;
     cout << "Enter Digit: ";
     cin >> selection;
-    while(!cin || selection < 0 || selection > 5){
+    while(!cin || selection < 0 || selection > 6){
         cin.clear();
         cin.ignore(256, '\n');
         cout << "Error: Invalid Input\nTry Again!\n";
@@ -84,6 +98,12 @@ bool Bank::menu(){
                 printAccount();
             }
             break;
+        case 6:
+            cin.ignore(256, '\n');
+            if(verifyUser(accMade)){
+                getHistory();
+            }
+            break;
         default:
             break;
     }
@@ -96,12 +116,14 @@ void Bank::getAccount(){
     accountName = getString("What is the account name: ");
     password = getString("What is your password: ");
     initialBal = 0.0;
+    transNumber = 0;
     accMade = false;
 }
 
 bool Bank::verifyUser(bool acc){
     string checkUser = "0";
     string checkPass = "0";
+    cout << '\n';
     if(!acc){
         cout << "Error: No account made\n";
         return false;
@@ -114,6 +136,7 @@ bool Bank::verifyUser(bool acc){
         cout << "Error: account name or password is incorrect\n";
         return false;
     }
+    cout << '\n';
     return true;
 }
 
@@ -131,7 +154,19 @@ void Bank::deposit(){
         cout << "How much would you like to deposit: ";
         cin >> depositAmt;
     }
+    depoToTrans(depositAmt);
     initialBal += depositAmt;
+}
+
+void Bank::depoToTrans(int d){
+    transaction depo;
+    time_t now = time(0);
+    string transform = ctime(&now);
+    depo.number = ++transNumber;
+    depo.type = "Deposit";
+    depo.when = transform;
+    depo.Amt = d;
+    transHist.push_back(depo);
 }
 
 void Bank::withdraw(){
@@ -150,11 +185,35 @@ void Bank::withdraw(){
         cout << "Enter amount to withdraw: ";
         cin >> withdrawAmt;
     }
+    withToTrans(withdrawAmt);
     initialBal -= withdrawAmt;
+}
+
+void Bank::withToTrans(int w){
+    transaction with;
+    time_t now = time(0);
+    string transform = ctime(&now);
+    with.number = ++transNumber;
+    with.type = "Withdrawal";
+    with.when = transform;
+    with.Amt = w;
+    transHist.push_back(with);
 }
 
 void Bank::checkBalance(){
     cout << "Your balance is: " << initialBal << '\n';
+}
+
+void Bank::getHistory(){
+    if(transNumber == 0){
+        cout << "No transactions have been made.\n";
+    }
+    for(int i = 0; i < transHist.size(); i++){
+        cout << "Transaction Number: " << transHist[i].number << '\n' 
+            << "Transaction Type: " << transHist[i].type << '\n' 
+            << "Tiem of Transaction: " << transHist[i].when 
+            << "Amount Deposited/Withdrawn: " << transHist[i].Amt << '\n' << '\n';
+    }
 }
 
 int main(){
